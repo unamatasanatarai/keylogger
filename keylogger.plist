@@ -6,7 +6,7 @@
   <string>keylogger</string>
   <key>ProgramArguments</key>
   <array>
-      <string>~/bin/keylogger</string>
+      <string>~</string>
   </array>
   <key>RunAtLoad</key>
   <true/>

