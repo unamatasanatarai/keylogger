@@ -16,10 +16,6 @@ install:
 
 uninstall:
 	rm $(INSTALLDIR)/$(EXECUTABLE)
-	rm /Library/LaunchDaemons/$(PLIST)
-
-startup:
-	sed "s|~|${HOME}/bin/keylogger ${HOME}/.keylogger|" keylogger.plist | sudo tee /Library/LaunchDaemons/keylogger.plist
 
 clean:
 	rm $(EXECUTABLE)
