@@ -4,7 +4,7 @@ void createNewFile() {
     now = time(NULL);
     tm  = localtime(&now);
     theday = tm->tm_mday;
-    sprintf(logFileLocation, "%s/%04d%02d%02d.log", logDirectory, tm->tm_year+1900, tm->tm_mon+1, theday);
+    sprintf(logFileLocation, "%s/k%04d%02d%02d.log", logDirectory, tm->tm_year+1900, tm->tm_mon+1, theday);
     logfile = fopen(logFileLocation, "a");
 
     if (!logfile) {

@@ -10,13 +10,9 @@ Install it:
 
 `$ make && make install`
 
-It will log to `/var/log/keylogger.YYYYMMDD.log`. This may require root access, but you can change that if you want. Set where you want it to log:
+Run it:
 
-Want to make it start on system startup?
-
-`$ sudo make startup`
-
-That will run it on startup.
+`$ keylogger .`
 
 ### Uninstall
 `$ sudo make uninstall`
